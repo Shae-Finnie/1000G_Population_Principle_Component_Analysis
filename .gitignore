@@ -1,0 +1,24 @@
+# Data files (too large for GitHub)
+data/raw/*.vcf.gz
+data/raw/*.vcf.gz.tbi
+data/processed/*.vcf.gz
+data/processed/*.vcf.gz.tbi
+data/processed/*.gds
+data/raw/*.gds
+
+# R
+*.Rdata
+*.rds
+.Rhistory
+.RData
+.Rproj.user/
+
+# RMarkdown outputs
+*.html
+*.pdf
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
