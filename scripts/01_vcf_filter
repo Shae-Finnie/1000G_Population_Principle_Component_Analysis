@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Paths
+RAW_DIR="data/raw"
+OUT_DIR="data/processed"
+
+mkdir -p $OUT_DIR
+
+# Filter Chr1
+echo "Filtering chromosome 1"
+bcftools view -m2 -M2 -v snps \
+    -i 'INFO/AF > 0.01' \
+    $RAW_DIR/chr1_biallelic_snps.vcf.gz \
+    -Oz -o $OUT_DIR/chr1_biallelic_snps_filtered_maf.vcf.gz
+
+# Filter Chr10
+echo "Filtering chromosome 10"
+bcftools view -m2 -M2 -v snps \
+    -i 'INFO/AF > 0.01' \
+    $RAW_DIR/chr10_biallelic_snps.vcf.gz \
+    -Oz -o $OUT_DIR/chr10_biallelic_snps_filtered_maf.vcf.gz
+
+echo "Filtering complete"
+echo "Filtertered mafs in data/processed"
