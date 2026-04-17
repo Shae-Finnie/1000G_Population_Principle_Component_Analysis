@@ -23,14 +23,22 @@ This project explores population genetic structure using whole genome sequencing
 
 ![Chr 1 Whole PCA](results/figures/chr1_pca_combined.png)
 
+PCA of 3,202 individuals across 26 populations using common biallelic SNPs from chromosome 1. Each point represents one sample, coloured by population code. Superpopulation-level plots show within-group spread along PC1 and PC2.
+
 ## Whole Population PCA Plots Chromosome 10 
 
 ![Chr 10 Whole PCA](results/figures/chr10_pca_combined.png)
+
+PCA of 3,202 individuals using common biallelic SNPs from chromosome 10. Population clustering patterns are broadly consistent with chromosome 1, supporting the robustness of the observed structure across different genomic regions.
 
 ## Mean Population PCA Plots Chromosome 1 
 
 ![Chr 1 Means PCA](results/figures/chr1_pca_means.png)
 
+Mean PC1 and PC2 values per population for chromosome 1. Each point represents the centroid of one population, with zoomed axes per superpopulation to resolve fine-scale separation between closely related groups.
+
 ## Mean Population PCA Plots Chromosome 10 
 
 ![Chr 10 Means PCA](results/figures/chr10_pca_means.png)
+
+Mean PC1 and PC2 values per population for chromosome 10. Superpopulation-level panels reveal subpopulation relationships consistent with those observed on chromosome 1, with minor differences in spread reflecting regional variation in linkage and diversity.
