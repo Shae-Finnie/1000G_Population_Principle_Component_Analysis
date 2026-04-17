@@ -1,0 +1,139 @@
+---
+title: "Population FST Analysis"
+output: html_notebook
+---
+
+```{r setup}
+library(SNPRelate)
+library(gdsfmt)
+library(dplyr)
+library(ggplot2)
+library(viridis)
+
+
+# Paths
+base_dir      <- "~/workspace/population_genomics_PCA"
+processed_dir <- file.path(base_dir, "data/processed")
+results_dir   <- file.path(base_dir, "results")
+figures_dir   <- file.path(base_dir, "results/figures")
+
+# Load population data
+closeAllConnections()
+population_data <- read.csv(file.path(base_dir, "data/raw/Populations.tsv"), sep = "\t", header = TRUE)
+head(population_data)
+```
+
+```{r helper-functions}
+# Helper to get sample IDs from GDS
+get_sample_ids <- function(gds) {
+  read.gdsn(index.gdsn(gds, "sample.id"))
+}
+
+# Build pairwise FST matrix helper
+build_fst_matrix <- function(gds_path, pop_data, level = "superpop") {
+  gds        <- snpgdsOpen(gds_path)
+  sample_ids <- get_sample_ids(gds)
+
+  if (level == "superpop") {
+    pops <- pop_data$Superpopulation.code[match(sample_ids, pop_data$Sample.name)]
+    pops[!pops %in% c("AFR", "AMR", "EAS", "EUR", "SAS")] <- NA
+  } else {
+    valid_pops <- c("CLM","MXL","PEL","PUR",
+                    "CDX","CHB","CHS","JPT","KHV",
+                    "CEU","FIN","GBR","IBS","TSI",
+                    "BEB","GIH","ITU","PJL","STU",
+                    "ACB","ASW","ESN","GWD","LWK","MSL","YRI")
+    pops <- pop_data$Population.code[match(sample_ids, pop_data$Sample.name)]
+    pops[!pops %in% valid_pops] <- NA
+  }
+
+  pop_levels <- unique(na.omit(pops))
+
+  fst_matrix <- matrix(NA, nrow = length(pop_levels), ncol = length(pop_levels),
+                       dimnames = list(pop_levels, pop_levels))
+
+  for (i in seq_along(pop_levels)) {
+    for (j in seq_along(pop_levels)) {
+      if (i != j) {
+        idx    <- pops %in% c(pop_levels[i], pop_levels[j]) & !is.na(pops)
+        result <- snpgdsFst(
+          gds,
+          sample.id  = sample_ids[idx],
+          population = as.factor(pops[idx]),
+          method     = "W&C84"
+        )
+        fst_matrix[i, j] <- result$Fst
+      }
+    }
+  }
+
+  snpgdsClose(gds)
+  fst_matrix
+}
+
+# FST heatmap plot helper
+plot_fst_heatmap <- function(fst_matrix, title, text_size = 3.5) {
+  fst_df <- as.data.frame(as.table(fst_matrix))
+  colnames(fst_df) <- c("Pop1", "Pop2", "FST")
+
+  ggplot(fst_df, aes(x = Pop1, y = Pop2, fill = FST)) +
+    geom_tile(color = "white", alpha = 0.7) +
+    geom_text(aes(label = round(FST, 3)), size = text_size,
+              fontface = "bold", na.rm = TRUE) +
+    scale_fill_viridis(option = "plasma", na.value = "grey90",
+                       name = "FST", limits = c(0, max(fst_df$FST, na.rm = TRUE))) +
+    labs(title = title, x = NULL, y = NULL) +
+    theme_minimal() +
+    theme(
+      plot.title      = element_text(hjust = 0.5, size = 14, face = "bold"),
+      axis.text       = element_text(size = 11, face = "bold"),
+      legend.title    = element_text(size = 10, face = "bold"),
+      plot.background = element_rect(fill = "white", color = NA),
+      panel.grid      = element_blank(),
+      plot.margin     = margin(20, 20, 20, 20)
+    )
+}
+```
+
+```{r calculate-fst}
+# Set to FALSE to skip recalculating and load saved results instead
+recalculate_fst <- FALSE
+
+if (recalculate_fst) {
+  fst_mat_chr1      <- build_fst_matrix(file.path(processed_dir, "chr1_biallelic_snps_filtered_maf.gds"),  population_data, level = "superpop")
+  fst_mat_chr10     <- build_fst_matrix(file.path(processed_dir, "chr10_biallelic_snps_filtered_maf.gds"), population_data, level = "superpop")
+  fst_mat_chr1_sub  <- build_fst_matrix(file.path(processed_dir, "chr1_biallelic_snps_filtered_maf.gds"),  population_data, level = "subpop")
+  fst_mat_chr10_sub <- build_fst_matrix(file.path(processed_dir, "chr10_biallelic_snps_filtered_maf.gds"), population_data, level = "subpop")
+  saveRDS(fst_mat_chr1,      file.path(results_dir, "fst_matrix_chr1.rds"))
+  saveRDS(fst_mat_chr10,     file.path(results_dir, "fst_matrix_chr10.rds"))
+  saveRDS(fst_mat_chr1_sub,  file.path(results_dir, "fst_matrix_chr1_sub.rds"))
+  saveRDS(fst_mat_chr10_sub, file.path(results_dir, "fst_matrix_chr10_sub.rds"))
+} else {
+  fst_mat_chr1      <- readRDS(file.path(results_dir, "fst_matrix_chr1.rds"))
+  fst_mat_chr10     <- readRDS(file.path(results_dir, "fst_matrix_chr10.rds"))
+  fst_mat_chr1_sub  <- readRDS(file.path(results_dir, "fst_matrix_chr1_sub.rds"))
+  fst_mat_chr10_sub <- readRDS(file.path(results_dir, "fst_matrix_chr10_sub.rds"))
+}
+```
+
+```{r superpop-heatmaps}
+heatmap_chr1  <- plot_fst_heatmap(fst_mat_chr1,  "Pairwise FST Between Superpopulations — Chromosome 1")
+heatmap_chr10 <- plot_fst_heatmap(fst_mat_chr10, "Pairwise FST Between Superpopulations — Chromosome 10")
+
+heatmap_chr1
+heatmap_chr10
+
+ggsave(file.path(figures_dir, "fst_chr1_heatmap.png"),  heatmap_chr1,  width = 7,  height = 6,  dpi = 300, bg = "white")
+ggsave(file.path(figures_dir, "fst_chr10_heatmap.png"), heatmap_chr10, width = 7,  height = 6,  dpi = 300, bg = "white")
+```
+
+```{r subpop-heatmaps}
+heatmap_chr1_sub  <- plot_fst_heatmap(fst_mat_chr1_sub,  "Pairwise FST Between Populations — Chromosome 1",  text_size = 2.5)
+heatmap_chr10_sub <- plot_fst_heatmap(fst_mat_chr10_sub, "Pairwise FST Between Populations — Chromosome 10", text_size = 2.5)
+
+heatmap_chr1_sub
+heatmap_chr10_sub
+
+ggsave(file.path(figures_dir, "fst_chr1_subpop_heatmap.png"),  heatmap_chr1_sub,  width = 14, height = 12, dpi = 300, bg = "white")
+ggsave(file.path(figures_dir, "fst_chr10_subpop_heatmap.png"), heatmap_chr10_sub, width = 14, height = 12, dpi = 300, bg = "white")
+```
