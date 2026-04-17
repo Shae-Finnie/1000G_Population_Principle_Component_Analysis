@@ -19,6 +19,37 @@ This project explores population genetic structure using whole genome sequencing
     └── 03_pca_plotter.R
 ...
 ```
+
+### Population Codes 
+
+| Population | Code | Superpopulation | DNA Samples | Cell Cultures |
+|---|---|---|---|---|
+| African Ancestry in SW USA | ASW | AFR | 62 | 62 |
+| African Caribbean in Barbados | ACB | AFR | 120 | 120 |
+| Esan in Nigeria | ESN | AFR | 173 | 173 |
+| Gambian in Western Division – Mandinka | GWD | AFR | 179 | 179 |
+| Luhya in Webuye, Kenya | LWK | AFR | 120 | 120 |
+| Mende in Sierra Leone | MSL | AFR | 128 | 128 |
+| Yoruba in Ibadan, Nigeria | YRI | AFR | 120 | 120 |
+| Colombian in Medellín, Colombia | CLM | AMR | 136 | 136 |
+| Mexican Ancestry in Los Angeles CA, USA | MXL | AMR | 71 | 71 |
+| Peruvian in Lima, Peru | PEL | AMR | 122 | 122 |
+| Puerto Rican in Puerto Rico | PUR | AMR | 139 | 139 |
+| Chinese Dai in Xishuangbanna, China | CDX | EAS | 102 | 102 |
+| Han Chinese in Beijing, China | CHB | EAS | 120 | 120 |
+| Han Chinese South | CHS | EAS | 163 | 163 |
+| Japanese in Tokyo, Japan | JPT | EAS | 120 | 120 |
+| Kinh in Ho Chi Minh City, Vietnam | KHV | EAS | 124 | 124 |
+| British from England and Scotland | GBR | EUR | 100 | 100 |
+| Finnish in Finland | FIN | EUR | 103 | 103 |
+| Iberian Populations in Spain | IBS | EUR | 157 | 157 |
+| Toscani in Italia | TSI | EUR | 114 | 114 |
+| Bengali in Bangladesh | BEB | SAS | 144 | 144 |
+| Gujarati Indians in Houston, Texas, USA | GIH | SAS | 109 | 109 |
+| Indian Telugu in the U.K. | ITU | SAS | 118 | 118 |
+| Punjabi in Lahore, Pakistan | PJL | SAS | 158 | 158 |
+| Sri Lankan Tamil in the UK | STU | SAS | 128 | 128 |
+
 ## Whole Population PCA Plots Chromosome 1 
 
 ![Chr 1 Whole PCA](results/figures/chr1_pca_combined.png)
