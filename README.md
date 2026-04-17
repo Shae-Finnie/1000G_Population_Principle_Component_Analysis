@@ -25,12 +25,12 @@ This project explores population genetic structure using whole genome sequencing
 
 ## Whole Population PCA Plots Chromosome 10 
 
-![Chr 10 Whole PCA](results/results/figures/chr10_pca_combined.png)
+![Chr 10 Whole PCA](results/figures/chr10_pca_combined.png)
 
 ## Mean Population PCA Plots Chromosome 1 
 
-![Chr 1 Means PCA](results/results/figures/chr1_pca_means.png)
+![Chr 1 Means PCA](results/figures/chr1_pca_means.png)
 
 ## Mean Population PCA Plots Chromosome 10 
 
-![Chr 10 Means PCA](results/results/figures/chr10_pca_means.png)
+![Chr 10 Means PCA](results/figures/chr10_pca_means.png)
