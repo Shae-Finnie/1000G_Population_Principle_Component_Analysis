@@ -8,6 +8,7 @@ library(SNPRelate)
 library(gdsfmt)
 library(dplyr)
 library(ggplot2)
+library(patchwork)
 library(viridis)
 
 
@@ -120,11 +121,11 @@ if (recalculate_fst) {
 heatmap_chr1  <- plot_fst_heatmap(fst_mat_chr1,  "Pairwise FST Between Superpopulations — Chromosome 1")
 heatmap_chr10 <- plot_fst_heatmap(fst_mat_chr10, "Pairwise FST Between Superpopulations — Chromosome 10")
 
-heatmap_chr1
-heatmap_chr10
+heatmap_combined <- heatmap_chr1 + heatmap_chr10
 
-ggsave(file.path(figures_dir, "fst_chr1_heatmap.png"),  heatmap_chr1,  width = 7,  height = 6,  dpi = 300, bg = "white")
-ggsave(file.path(figures_dir, "fst_chr10_heatmap.png"), heatmap_chr10, width = 7,  height = 6,  dpi = 300, bg = "white")
+heatmap_combined
+
+ggsave(file.path(figures_dir, "fst_superpop_heatmaps.png"), heatmap_combined, width = 14, height = 6, dpi = 300, bg = "white")
 ```
 
 ```{r subpop-heatmaps}

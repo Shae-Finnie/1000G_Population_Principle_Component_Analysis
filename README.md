@@ -74,22 +74,23 @@ Mean PC1 and PC2 values per population for chromosome 1. Each point represents t
 
 Mean PC1 and PC2 values per population for chromosome 10. Superpopulation-level panels reveal subpopulation relationships consistent with those observed on chromosome 1, with minor differences in spread reflecting regional variation in linkage and diversity.
 
-## Superpopulation FST Chromosome 1 
+## Superpopulation FST Chromosome 1 and Chromosome 10
 
-![Chr 10 Means PCA](results/figures/fst_chr1_heatmap.png)
+![Chr 1/10 fst](results/figures/fst_superpop_heatmaps.png)
 
-Pairwise FST values between the five 1000 Genomes superpopulations (AFR, AMR, EAS, EUR, SAS) estimated from biallelic SNPs on Chromosome 1 using the Weir & Cockerham (1984) method. Color intensity reflects the degree of genetic differentiation, with darker (higher) values indicating greater divergence between population pairs. African populations (AFR) show the highest FST values relative to all other superpopulations, consistent with the out-of-Africa bottleneck and greater genetic diversity within AFR. Non-African superpopulations (AMR, EAS, EUR, SAS) exhibit comparatively lower pairwise FST, reflecting shared ancestral bottlenecks during dispersal. The diagonal is zero by definition (within-population comparison).
-
-## Superpopulation FST Chromosome 10 
-
-![Chr 10 Means PCA](results/figures/fst_chr10_heatmap.png)
+Pairwise FST values between the five 1000 Genomes superpopulations (AFR, AMR, EAS, EUR, SAS) 
+estimated from biallelic SNPs on Chromosomes 1 and 10 using the Weir & Cockerham (1984) method. 
+Color intensity reflects the degree of genetic differentiation. AFR shows the highest FST values 
+relative to all other superpopulations, consistent with the out-of-Africa bottleneck, while 
+non-African superpopulations exhibit comparatively lower pairwise divergence. The diagonal is 
+zero by definition.
 
 ## Sub Population  Chromosome 1
 
-![Chr 10 Means PCA](results/figures/fst_chr1_subpop_heatmap.png)
+![Chr 1 Subpop fst](results/figures/fst_chr1_subpop_heatmap.png)
 
 Pairwise FST values between all 26 subpopulations from the 1000 Genomes Project estimated from biallelic SNPs on Chromosome 1 using the Weir & Cockerham (1984) method. Populations are grouped and ordered by superpopulation (AFR, AMR, EAS, EUR, SAS), allowing continental-level clustering patterns to be visualized alongside fine-scale subpopulation structure. Darker cells indicate higher genetic differentiation between pairs. African subpopulations (e.g., YRI, LWK, ESN, MSL, GWD, ASW, ACB) display elevated FST against all non-African subpopulations, with particularly high values observed between geographically and ancestrally distant pairs. Admixed populations such as ASW and ACB show intermediate FST values reflecting African and European ancestry. East Asian (e.g., CHB, CHS, CDX, KHV) and South Asian (e.g., GIH, PJL, BEB) subpopulations cluster with lower within-superpopulation FST, indicating close genetic affinity. The symmetric matrix has zeros along the diagonal.
 
 ## Sub Population Chromosome 10 
 
-![Chr 10 Means PCA](results/figures/fst_chr10_subpop_heatmap.png)
+![Chr 10 Subpop fst](results/figures/fst_chr10_subpop_heatmap.png)
